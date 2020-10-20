@@ -3,7 +3,8 @@ from sklearn.datasets import fetch_openml
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier  # test 0.9449 accuracy cv = 10 (default)
 import joblib
-
+from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier
+from sklearn.ensemble import VotingClassifier
 
 class SelectModelClass:
     X = None
@@ -13,7 +14,7 @@ class SelectModelClass:
 
     def __init__(self):
         print("\nLoading model")
-
+        self.train_data_init_()
 
     def train_data_init_(self):
         print("Downloading MNIST dataset")
@@ -30,7 +31,6 @@ class SelectModelClass:
                                                                                                                60000:]
     def manual_train_Knn(self):
         print("Training KNN model")
-        self.train_data_init_()
         knn_clf = KNeighborsClassifier(n_neighbors=1)
         knn_clf.fit(self.X, self.Y)
         return knn_clf
@@ -46,3 +46,18 @@ class SelectModelClass:
         model = joblib.load(os.getcwd() + "\\saved_model" + "\\" + name)
         return model
 
+    def load_ensemble(self):
+
+        random_forest_clf = RandomForestClassifier(n_estimators = 100, random_state=42)
+        extra_trees_clf = ExtraTreesClassifier(n_estimators=500, random_state=42)
+        knn_clf = KNeighborsClassifier(n_neighbors=1)
+
+        classifiers = [("random_forest_clf", random_forest_clf),
+                       ("extra_trees_clf", extra_trees_clf),
+                       ("knn_clf", knn_clf),
+                      ]
+
+        voting_clf = VotingClassifier(classifiers)
+        voting_clf.fit(self.X, self.Y)
+
+        return voting_clf

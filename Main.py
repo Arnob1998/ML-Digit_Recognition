@@ -74,7 +74,7 @@ if __name__ == "__main__":
         modelObj = ModelTraining.SelectModelClass()
 
 #         model = modelObj.load_model(manual_model)
-        model = modelObj.manual_train_Knn()
+        model = modelObj.load_ensemble()
 
         # print("Log : Plotting drawn image")
         # plot_digit(trans_digit)
@@ -94,4 +94,3 @@ if __name__ == "__main__":
 # recommended : draw as large as possible and slowly
 # Good : 0,1,2,3
 # Bad : 5,6,7,8(perfect-slowly drawn works),9
-
