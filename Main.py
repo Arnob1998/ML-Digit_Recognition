@@ -82,7 +82,7 @@ if __name__ == "__main__":
         pred = model.predict([trans_digit])
         print("Prediction : " + str(pred))
 
-        print()
+        print() # todo add predict proba
         # saveCustomData(pred[0])
 
     except Exception as err:

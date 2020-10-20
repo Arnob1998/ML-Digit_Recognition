@@ -47,17 +47,27 @@ class SelectModelClass:
         return model
 
     def load_ensemble(self):
+        default_save_path = os.getcwd() + "\\" + "Ensemble_KNN_ExTre_RandFor_grayscale"
 
-        random_forest_clf = RandomForestClassifier(n_estimators = 100, random_state=42)
-        extra_trees_clf = ExtraTreesClassifier(n_estimators=500, random_state=42)
-        knn_clf = KNeighborsClassifier(n_neighbors=1)
+        if os.path.exists(default_save_path): #100+ sec
+            print("Loading saved model")
+            voting_clf = joblib.load("Ensemble_KNN_ExTre_RandFor_grayscale")
+            return voting_clf
+        else: # 450 sec
+            print("Training ensemble model")
+            random_forest_clf = RandomForestClassifier(n_estimators = 100)
+            extra_trees_clf = ExtraTreesClassifier(n_estimators = 100)
+            knn_clf = KNeighborsClassifier(n_neighbors=1)
 
-        classifiers = [("random_forest_clf", random_forest_clf),
-                       ("extra_trees_clf", extra_trees_clf),
-                       ("knn_clf", knn_clf),
-                      ]
+            classifiers = [("random_forest_clf", random_forest_clf),
+                           ("extra_trees_clf", extra_trees_clf),
+                           ("knn_clf", knn_clf),
+                           ]
 
-        voting_clf = VotingClassifier(classifiers)
-        voting_clf.fit(self.X, self.Y)
+            voting_clf = VotingClassifier(classifiers)
+            voting_clf.fit(self.X, self.Y)
 
-        return voting_clf
+            print("Saving model")
+            joblib.dump(voting_clf,"Ensemble_KNN_ExTre_RandFor_grayscale")
+
+            return voting_clf
