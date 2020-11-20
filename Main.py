@@ -5,6 +5,7 @@ import DigitManagement
 from matplotlib import pyplot as plt
 import os
 import shutil
+import numpy as np
 
 if __name__ == "__main__":
 
@@ -82,7 +83,7 @@ if __name__ == "__main__":
 
         # pred = model.predict([trans_digit])
 
-        pred = model.predict_classes(trans_digit.reshape(1,-1)) #only for ANN
+        pred = np.argmax(model.predict(trans_digit.reshape(1,-1)), axis=-1)  #only for ANN
         print("Prediction : " + str(pred))
 
         print() # todo add predict proba
