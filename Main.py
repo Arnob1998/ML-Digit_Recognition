@@ -74,12 +74,15 @@ if __name__ == "__main__":
         modelObj = ModelTraining.SelectModelClass()
 
 #         model = modelObj.load_model(manual_model)
-        model = modelObj.load_ensemble()
+        # model = modelObj.load_ensemble()
+        model = modelObj.train_ANN()
 
         # print("Log : Plotting drawn image")
         # plot_digit(trans_digit)
 
-        pred = model.predict([trans_digit])
+        # pred = model.predict([trans_digit])
+
+        pred = model.predict_classes(trans_digit.reshape(1,-1)) #only for ANN
         print("Prediction : " + str(pred))
 
         print() # todo add predict proba

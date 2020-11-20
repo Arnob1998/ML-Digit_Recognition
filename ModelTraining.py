@@ -6,6 +6,9 @@ import joblib
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier
 from sklearn.ensemble import VotingClassifier
 
+import tensorflow as tf
+from tensorflow import keras
+
 class SelectModelClass:
     X = None
     Y = None
@@ -71,3 +74,19 @@ class SelectModelClass:
             joblib.dump(voting_clf,"Ensemble_KNN_ExTre_RandFor_grayscale")
 
             return voting_clf
+
+    def train_ANN(self):
+        print("Training Neural Network")
+        model = keras.models.Sequential()
+        model.add(keras.layers.Flatten(input_shape = [784]))
+        model.add(keras.layers.Dense(100, activation = "relu"))
+        model.add(keras.layers.Dense(100, activation = "relu"))
+        model.add(keras.layers.Dense(10, activation = "softmax"))
+
+        model.compile(loss="sparse_categorical_crossentropy",
+             optimizer = "adam",
+             metrics = ["accuracy"])
+
+        model.fit(self.X,self.Y, epochs = 5)
+
+        return model
