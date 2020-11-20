@@ -79,8 +79,8 @@ class SelectModelClass:
         print("Training Neural Network")
         model = keras.models.Sequential()
         model.add(keras.layers.Flatten(input_shape = [784]))
-        model.add(keras.layers.Dense(100, activation = "relu"))
-        model.add(keras.layers.Dense(100, activation = "relu"))
+        model.add(keras.layers.Dense(200, activation = "relu"))
+        model.add(keras.layers.Dense(200, activation = "relu"))
         model.add(keras.layers.Dense(10, activation = "softmax"))
 
         model.compile(loss="sparse_categorical_crossentropy",

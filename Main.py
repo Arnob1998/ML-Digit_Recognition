@@ -66,7 +66,7 @@ if __name__ == "__main__":
         # manual_model = manualModelSelection()
         manual_model = "knnMINST_N1_grayscale"
 
-        drawObj = DrawDigit.DrawDigitClass(shape_width=40, shape_height=40)
+        drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
         drawObj.start()
 
         digManObj = DigitManagement.DigitTransformClass(anti_aliasing=True) # anti_aliasing = false for binary digit
