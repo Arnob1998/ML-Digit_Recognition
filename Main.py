@@ -98,3 +98,7 @@ if __name__ == "__main__":
 # recommended : draw as large as possible and slowly
 # Good : 0,1,2,3
 # Bad : 5,6,7,8(perfect-slowly drawn works),9
+
+# ANN : 2 dense layers each with 200 neurons and activation = 'relu'| (in compile)optimizer = 'adam' |(in fit) epochs = 5
+# Good : 1(both ways),2,3,5(mostly), 6(with/without connected circle), 8
+# Bad : 4,7,9
