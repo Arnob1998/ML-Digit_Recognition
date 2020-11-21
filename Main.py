@@ -83,10 +83,17 @@ if __name__ == "__main__":
 
         # pred = model.predict([trans_digit])
 
-        pred = np.argmax(model.predict(trans_digit.reshape(1,-1)), axis=-1)  #only for ANN
-        print("Prediction : " + str(pred))
+        # this block is only for ANN
+        pred = np.argmax(model.predict(trans_digit.reshape(1,-1)), axis=-1)
+        pred_prob_ann = model.predict(trans_digit.reshape(1,-1)).round(2) # 1 means 100%
+        print("\n\nPrediction Probability for Neural Network : ")
+        for i in range(0,10):
+            print(str(i) + " -> " + str(pred_prob_ann[0][i]))
+        print()
 
-        print() # todo add predict proba
+        print("Prediction : " + str(pred))
+        print()
+
         # saveCustomData(pred[0])
 
     except Exception as err:
