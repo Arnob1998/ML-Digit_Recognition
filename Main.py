@@ -66,6 +66,7 @@ if __name__ == "__main__":
         # manual_model = manualModelSelection()
         manual_model = "knnMINST_N1_grayscale"
 
+        # to use the same   digit as before comment out the next two line
         drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
         drawObj.start()
 
