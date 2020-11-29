@@ -20,7 +20,7 @@ class SelectModelClass:
         self.train_data_init_()
 
     def train_data_init_(self):
-        print("Downloading MNIST dataset")
+        print("Downloading MNIST dataset (This may take sometime)")
         mnist = fetch_openml('mnist_784', version=1, data_home=os.getcwd() + "\\data")
         print("Working on dataset")
         self.X, self.Y = mnist["data"], mnist["target"]
@@ -32,22 +32,22 @@ class SelectModelClass:
 
         self.x_train, self.x_test, self.y_train, self.y_test = self.X[:60000], self.X[60000:], self.Y[:60000], self.Y[
                                                                                                                60000:]
-    def manual_train_Knn(self):
-        print("Training KNN model")
-        knn_clf = KNeighborsClassifier(n_neighbors=1)
-        knn_clf.fit(self.X, self.Y)
-        return knn_clf
+    def load_KNN(self):
+        default_save_path = os.getcwd() + "\\" + "KNN_n1_grayscale"
 
-    def load_model(self, name):
-        if "binary" in name:
-            print("Log : Using binary (0 or 255) trained model - " + name)
-        elif "grayscale" in name:
-            print("Log : Using grayscale (0 to 255) trained model - " + name)
+        if os.path.exists(default_save_path):
+            print("Loading saved model")
+            knn_clf = joblib.load("KNN_n1_grayscale")
+            return knn_clf
         else:
-            print("Log : Using saved model - " + name)
+            print("Training KNN model")
+            knn_clf = KNeighborsClassifier(n_neighbors=1)
+            knn_clf.fit(self.X, self.Y)
 
-        model = joblib.load(os.getcwd() + "\\saved_model" + "\\" + name)
-        return model
+            print("Saving model")
+            joblib.dump(knn_clf,"KNN_n1_grayscale")
+
+            return knn_clf
 
     def load_ensemble(self):
         default_save_path = os.getcwd() + "\\" + "Ensemble_KNN_ExTre_RandFor_grayscale"
@@ -76,17 +76,27 @@ class SelectModelClass:
             return voting_clf
 
     def train_ANN(self):
-        print("Training Neural Network")
-        model = keras.models.Sequential()
-        model.add(keras.layers.Flatten(input_shape = [784]))
-        model.add(keras.layers.Dense(200, activation = "relu"))
-        model.add(keras.layers.Dense(200, activation = "relu"))
-        model.add(keras.layers.Dense(10, activation = "softmax"))
+        default_save_path = os.getcwd() + "\\" + "2-dense_[200, 200]-nodes_20-epoch.h5"
 
-        model.compile(loss="sparse_categorical_crossentropy",
-             optimizer = "adam",
-             metrics = ["accuracy"])
+        if os.path.exists(default_save_path):
+            print("Loading saved model")
+            model = keras.models.load_model("2-dense_[200, 200]-nodes_20-epoch.h5")
+            return model
+        else:
+            print("Training Neural Network")
+            model = keras.models.Sequential()
+            model.add(keras.layers.Flatten(input_shape = [784]))
+            model.add(keras.layers.Dense(200, activation = "relu"))
+            model.add(keras.layers.Dense(200, activation = "relu"))
+            model.add(keras.layers.Dense(10, activation = "softmax"))
 
-        model.fit(self.X,self.Y, epochs = 5)
+            model.compile(loss="sparse_categorical_crossentropy",
+                          optimizer = "adam",
+                          metrics = ["accuracy"])
 
-        return model
+            model.fit(self.X,self.Y, epochs = 5)
+
+            print("Saving model")
+            model.save("2-dense_[200, 200]-nodes_20-epoch.h5")
+
+            return model

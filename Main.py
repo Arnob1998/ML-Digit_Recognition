@@ -63,28 +63,29 @@ if __name__ == "__main__":
                             int(max(last_digit)) + 1) + "-" + pred_type + ".jpeg")
 
     try:
-        # manual_model = manualModelSelection()
-        manual_model = "knnMINST_N1_grayscale"
-
-        # to use the same   digit as before comment out the next two line
+        # ------------------------ Draw Digit -------------------------
+        # to use the same digit as before comment out the next two line
         drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
         drawObj.start()
 
+        # ---------------------- Pre-processing Image--------------------
         digManObj = DigitManagement.DigitTransformClass(anti_aliasing=True) # anti_aliasing = false for binary digit
         trans_digit = digManObj.transformPipeline()                         # anti_aliasing = Ture for grayscale digit
 
+        # ------------------ Model Training-Save / Load----------------
         modelObj = ModelTraining.SelectModelClass()
-
-#         model = modelObj.load_model(manual_model)
+        # model = modelObj.load_KNN()
         # model = modelObj.load_ensemble()
         model = modelObj.train_ANN()
 
+        # ---------------------- Visualization -------------------------
         # print("Log : Plotting drawn image")
         # plot_digit(trans_digit)
 
+        # -------------------------- Output ----------------------------
         # pred = model.predict([trans_digit])
 
-        # this block is only for ANN
+        # this block is only for ANN .Comment out when using other models
         pred = np.argmax(model.predict(trans_digit.reshape(1,-1)), axis=-1)
         pred_prob_ann = model.predict(trans_digit.reshape(1,-1)).round(2) # 1 means 100%
         print("\n\nPrediction Probability for Neural Network : ")
@@ -94,7 +95,8 @@ if __name__ == "__main__":
 
         print("Prediction : " + str(pred))
         print()
-
+        print(type(model))
+        # ---------------------- Saving Data -------------------------
         # saveCustomData(pred[0])
 
     except Exception as err:
