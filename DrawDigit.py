@@ -43,7 +43,7 @@ class DrawDigitClass:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(1) # todo fix this. prompts to next
+                    raise Exception("Not an Exception. Pyautogiu window was closed")
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:

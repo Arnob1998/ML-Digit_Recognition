@@ -16,7 +16,7 @@ class SelectModelClass:
     x_train, x_test, y_train, y_test = None, None, None, None
 
     def __init__(self):
-        print("\nLoading model")
+        print("\nWorking on data and model")
         self.train_data_init_()
 
     def train_data_init_(self):
@@ -75,28 +75,43 @@ class SelectModelClass:
 
             return voting_clf
 
-    def train_ANN(self):
-        default_save_path = os.getcwd() + "\\" + "2-dense_[200, 200]-nodes_20-epoch.h5"
+    def CustomSequentialANN(self, dense_layers, neuron_list, epochs, load_savedmodel):
+        model_name = "{}-dense_{}-nodes_{}-epoch".format(dense_layers,neuron_list,epochs)
+        default_save_path = model_name + ".h5"
 
-        if os.path.exists(default_save_path):
+        if dense_layers != len(neuron_list):
+            raise Exception("Parameter Mismatch : length of neuron_list must be the same as dense_layers")
+
+        if os.path.exists(os.getcwd() + "\\" + default_save_path) and load_savedmodel == "yes":
             print("Loading saved model")
-            model = keras.models.load_model("2-dense_[200, 200]-nodes_20-epoch.h5")
+            model = keras.models.load_model(default_save_path)
+
+            print()
+            print(model.summary())
+            print()
+
             return model
         else:
             print("Training Neural Network")
             model = keras.models.Sequential()
             model.add(keras.layers.Flatten(input_shape = [784]))
-            model.add(keras.layers.Dense(200, activation = "relu"))
-            model.add(keras.layers.Dense(200, activation = "relu"))
+
+            for i in range(dense_layers):
+                model.add(keras.layers.Dense(neuron_list[i], activation = "relu"))
+
             model.add(keras.layers.Dense(10, activation = "softmax"))
 
-            model.compile(loss="sparse_categorical_crossentropy",
+            print()
+            print(model.summary())
+            print()
+
+            model.compile(loss = "sparse_categorical_crossentropy",
                           optimizer = "adam",
                           metrics = ["accuracy"])
 
             model.fit(self.X,self.Y, epochs = 5)
 
             print("Saving model")
-            model.save("2-dense_[200, 200]-nodes_20-epoch.h5")
+            model.save(default_save_path)
 
             return model

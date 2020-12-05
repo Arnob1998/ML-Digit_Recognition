@@ -61,18 +61,12 @@ if __name__ == "__main__":
         shutil.copyfile(os.getcwd() + "\\screenshot.jpeg",
                         os.getcwd() + "\\custom_data\\" + str(pred) + "_" + str(
                             int(max(last_digit)) + 1) + "-" + pred_type + ".jpeg")
-    
-    def deleteSavedModel(saved_model):
-        if os.path.exists(os.getcwd() + "\\" + saved_model):
-            os.remove(os.getcwd() + "\\" + saved_model)
-            print("Model save : " + saved_model + " deleted")
-    
+
     try:
-        deleteSavedModel("2-dense_[200, 200]-nodes_20-epoch.h5")  # use only when trying out ann with differnet settings
         # ------------------------ Draw Digit -------------------------
         # to use the same digit as before comment out the next two line
-        drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
-        drawObj.start()
+        # drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
+        # drawObj.start()
 
         # ---------------------- Pre-processing Image--------------------
         digManObj = DigitManagement.DigitTransformClass(anti_aliasing=True) # anti_aliasing = false for binary digit
@@ -82,7 +76,7 @@ if __name__ == "__main__":
         modelObj = ModelTraining.SelectModelClass()
         # model = modelObj.load_KNN()
         # model = modelObj.load_ensemble()
-        model = modelObj.train_ANN()
+        model = modelObj.CustomSequentialANN(dense_layers = 2, neuron_list = [200,200], epochs = 5, load_savedmodel = "no") # best so far : dense_layers = 3, neuron_list = [200,200], epochs = 5
 
         # ---------------------- Visualization -------------------------
         # print("Log : Plotting drawn image")
