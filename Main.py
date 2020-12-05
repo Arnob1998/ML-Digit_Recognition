@@ -65,8 +65,8 @@ if __name__ == "__main__":
     try:
         # ------------------------ Draw Digit -------------------------
         # to use the same digit as before comment out the next two line
-        # drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
-        # drawObj.start()
+        drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
+        drawObj.start()
 
         # ---------------------- Pre-processing Image--------------------
         digManObj = DigitManagement.DigitTransformClass(anti_aliasing=True) # anti_aliasing = false for binary digit
