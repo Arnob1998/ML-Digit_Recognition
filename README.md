@@ -13,6 +13,10 @@ skimage
 
 numpy
 
-joblib (optional)
+joblib
 
-matplotlib (optional)
+matplotlib
+
+tensorflow
+
+keras
