@@ -63,6 +63,7 @@ if __name__ == "__main__":
                             int(max(last_digit)) + 1) + "-" + pred_type + ".jpeg")
 
     try:
+        os.remove(os.getcwd() + "\\" + "2-dense_[200, 200]-nodes_20-epoch.h5") # use only when trying out ann with differnet settings
         # ------------------------ Draw Digit -------------------------
         # to use the same digit as before comment out the next two line
         drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
