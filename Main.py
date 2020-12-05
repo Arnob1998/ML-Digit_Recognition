@@ -61,9 +61,14 @@ if __name__ == "__main__":
         shutil.copyfile(os.getcwd() + "\\screenshot.jpeg",
                         os.getcwd() + "\\custom_data\\" + str(pred) + "_" + str(
                             int(max(last_digit)) + 1) + "-" + pred_type + ".jpeg")
-
+    
+    def deleteSavedModel(saved_model):
+        if os.path.exists(os.getcwd() + "\\" + saved_model):
+            os.remove(os.getcwd() + "\\" + saved_model)
+            print("Model save : " + saved_model + " deleted")
+    
     try:
-        os.remove(os.getcwd() + "\\" + "2-dense_[200, 200]-nodes_20-epoch.h5") # use only when trying out ann with differnet settings
+        deleteSavedModel("2-dense_[200, 200]-nodes_20-epoch.h5")  # use only when trying out ann with differnet settings
         # ------------------------ Draw Digit -------------------------
         # to use the same digit as before comment out the next two line
         drawObj = DrawDigit.DrawDigitClass(shape_width=50, shape_height=50)
